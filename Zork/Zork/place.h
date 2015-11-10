@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <list>
+#include "Item.h"
 using namespace std;
 
 class Place
@@ -12,6 +14,7 @@ private:
 	Place* eastPlace;
 	Place* upPlace;
 	Place* downPlace;
+	list<Item*> listOfItemsInPlace;
 
 public:
 	Place();
@@ -32,6 +35,10 @@ public:
 	void setEastPlace(Place* eastPlace);
 	void setUpPlace(Place* upPlace);
 	void setDownPlace(Place* downPlace);
+
+	void addItem(Item* item);
+	void removeItem(Item* item);
+	bool isItemPresent(string itemName);
 
 	void readPlace();
 

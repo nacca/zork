@@ -106,6 +106,29 @@ void Place::readPlace()
 		cout << "Una habitacio cap el up" << endl;
 	if (downPlace != NULL)
 		cout << "Una habitacio cap el down" << endl;
+	for (std::list<Item*>::iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
+	{
+		cout << "Un/Una: " << (*it)->getName() << endl;
+	}   	
 	cout << endl;
 }
 
+void Place::addItem(Item* item)
+{
+	listOfItemsInPlace.push_back(item);
+}
+
+void Place::removeItem(Item* item)
+{
+	listOfItemsInPlace.remove(item);
+}
+
+bool Place::isItemPresent(string itemName)
+{
+	for (std::list<Item*>::iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
+	{
+		if((*it)->getName() == itemName)
+			return true;
+	}
+	return false;
+}
