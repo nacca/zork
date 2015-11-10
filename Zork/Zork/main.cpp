@@ -1,6 +1,5 @@
 #include <iostream>
-#include <string>
-#include "Place.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -25,11 +24,11 @@ int main()
 
 	roomWestDown.setUpPlace(&roomWest);
 
-	Place* actualRoom = &roomCentral;
+	Player player(&roomCentral);
 
 	string input;
 	while (1) {
-		actualRoom->readPlace();
+		player.getActualPlace()->readPlace();
 		cin >> input;
 		if (input == "exit")
 			return 0;
@@ -38,45 +37,45 @@ int main()
 			cin >> input;
 			if (input == "north")
 			{
-				if (actualRoom->getNorthPlace() == NULL)
+				if (player.getActualPlace()->getNorthPlace() == NULL)
 					cout << "No hi ha habitacio cap on vols anar" << endl;
 				else
-					actualRoom = actualRoom->getNorthPlace();
+					player.setActualPlace(player.getActualPlace()->getNorthPlace());
 			}
 			else if (input == "south")
 			{
-				if (actualRoom->getSouthPlace() == NULL)
+				if (player.getActualPlace()->getSouthPlace() == NULL)
 					cout << "No hi ha habitacio cap on vols anar" << endl;
 				else
-					actualRoom = actualRoom->getSouthPlace();
+					player.setActualPlace(player.getActualPlace()->getSouthPlace());
 			}
 			else if (input == "east")
 			{
-				if (actualRoom->getEastPlace() == NULL)
+				if (player.getActualPlace()->getEastPlace() == NULL)
 					cout << "No hi ha habitacio cap on vols anar" << endl;
 				else
-					actualRoom = actualRoom->getEastPlace();
+					player.setActualPlace(player.getActualPlace()->getEastPlace());
 			}
 			else if (input == "west")
 			{
-				if (actualRoom->getWestPlace() == NULL)
+				if (player.getActualPlace()->getWestPlace() == NULL)
 					cout << "No hi ha habitacio cap on vols anar" << endl;
 				else
-					actualRoom = actualRoom->getWestPlace();
+					player.setActualPlace(player.getActualPlace()->getWestPlace());
 			}
 			else if (input == "up")
 			{
-				if (actualRoom->getUpPlace() == NULL)
+				if (player.getActualPlace()->getUpPlace() == NULL)
 					cout << "No hi ha habitacio cap on vols anar" << endl;
 				else
-					actualRoom = actualRoom->getUpPlace();
+					player.setActualPlace(player.getActualPlace()->getUpPlace());
 			}
 			else if (input == "down")
 			{
-				if (actualRoom->getDownPlace() == NULL)
+				if (player.getActualPlace()->getDownPlace() == NULL)
 					cout << "No hi ha habitacio cap on vols anar" << endl;
 				else
-					actualRoom = actualRoom->getDownPlace();
+					player.setActualPlace(player.getActualPlace()->getDownPlace());
 			}
 			else
 			{
