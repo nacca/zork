@@ -6,11 +6,11 @@ using namespace std;
 
 int main()
 {
-	Place roomCentral("Habitacio central");
-	Place roomNorth("Habitacio north");
-	Place roomWest("Habitacio west");
-	Place roomNorthUp("Habitacio north-up");
-	Place roomWestDown("Habitacio west-down");
+	Place roomCentral("Central Room");
+	Place roomNorth("North Room");
+	Place roomWest("West Room");
+	Place roomNorthUp("North-up Room");
+	Place roomWestDown("West-down Room");
 
 	vector<Item*> vectorOfItems(0);
 
@@ -59,7 +59,7 @@ int main()
 			if (input == "north")
 			{
 				if (player.getActualPlace()->getNorthPlace() == NULL)
-					cout << "No hi ha habitacio cap on vols anar" << endl;
+					cout << "<-- There isn't a place to go in that direction" << endl;
 				else
 				{
 					player.setActualPlace(player.getActualPlace()->getNorthPlace());
@@ -70,7 +70,7 @@ int main()
 			else if (input == "south")
 			{
 				if (player.getActualPlace()->getSouthPlace() == NULL)
-					cout << "No hi ha habitacio cap on vols anar" << endl;
+					cout << "<-- There isn't a place to go in that direction" << endl;
 				else
 				{
 					player.setActualPlace(player.getActualPlace()->getSouthPlace());
@@ -80,7 +80,7 @@ int main()
 			else if (input == "east")
 			{
 				if (player.getActualPlace()->getEastPlace() == NULL)
-					cout << "No hi ha habitacio cap on vols anar" << endl;
+					cout << "<-- There isn't a place to go in that direction" << endl;
 				else
 				{
 					player.setActualPlace(player.getActualPlace()->getEastPlace());
@@ -90,7 +90,7 @@ int main()
 			else if (input == "west")
 			{
 				if (player.getActualPlace()->getWestPlace() == NULL)
-					cout << "No hi ha habitacio cap on vols anar" << endl;
+					cout << "<-- There isn't a place to go in that direction" << endl;
 				else
 				{
 					player.setActualPlace(player.getActualPlace()->getWestPlace());
@@ -100,7 +100,7 @@ int main()
 			else if (input == "up")
 			{
 				if (player.getActualPlace()->getUpPlace() == NULL)
-					cout << "No hi ha habitacio cap on vols anar" << endl;
+					cout << "<-- There isn't a place to go in that direction" << endl;
 				else
 				{
 					player.setActualPlace(player.getActualPlace()->getUpPlace());
@@ -110,7 +110,7 @@ int main()
 			else if (input == "down")
 			{
 				if (player.getActualPlace()->getDownPlace() == NULL)
-					cout << "No hi ha habitacio cap on vols anar" << endl;
+					cout << "<-- There isn't a place to go in that direction" << endl;
 				else
 				{
 					player.setActualPlace(player.getActualPlace()->getDownPlace());
@@ -119,7 +119,7 @@ int main()
 			}
 			else
 			{
-				cout << "no t'entenc" << endl;
+				cout << "<-- can't recognize the direction" << endl;
 			}
 		}
 		else if (input == "take")
@@ -142,16 +142,16 @@ int main()
 				{
 					player.getActualPlace()->removeItem(itemYouWantToTake);
 					player.addItem(itemYouWantToTake);
-					cout << input << " taken" << endl;
+					cout << "<-- " << input << " taken" << endl;
 				}
 				else
 				{
-					cout << "This item can't be removed" << endl;
+					cout << "<-- This item can't be removed" << endl;
 				}
 			}
 			else
 			{
-				cout << "This item can't be founded in this place" << endl;
+				cout << "<-- This item can't be founded in this place" << endl;
 			}
 		}
 		else if (input == "drop")
@@ -174,16 +174,16 @@ int main()
 				{
 					player.removeItem(itemYouWantToTake);
 					player.getActualPlace()->addItem(itemYouWantToTake);
-					cout << input << " droped" << endl;
+					cout << "<-- " << input << " droped" << endl;
 				}
 				else
 				{
-					cout << "This item can't be removed" << endl;
+					cout << "<-- This item can't be removed" << endl;
 				}
 			}
 			else
 			{
-				cout << "This item can't be founded in this place" << endl;
+				cout << "<-- This item can't be founded in this place" << endl;
 			}
 		}
 		else if (input == "inventory")
@@ -196,7 +196,7 @@ int main()
 		}
 		else
 		{
-			cout << "no t'entenc" << endl;
+			cout << "<-- can't recognize the action" << endl;
 		}
 		cout << endl;
 	}

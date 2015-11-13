@@ -92,23 +92,23 @@ void Place::setDownPlace(Place* downPlace)
 
 void Place::readPlace()
 {
-	cout << "Estas a " << name << endl;
-	cout << "En aquesta habitacio hi ha : " << endl;
+	cout << "<-- You're in " << name << endl;
+	cout << "<-- In this place you can see : " << endl;
 	if (northPlace != NULL)
-		cout << "Una habitacio cap el north" << endl;
+		cout << "<-- A place to the north" << endl;
 	if (southPlace != NULL)
-		cout << "Una habitacio cap el south" << endl;
+		cout << "<-- A place to the south" << endl;
 	if (westPlace != NULL)
-		cout << "Una habitacio cap el west" << endl;
+		cout << "<-- A place to the west" << endl;
 	if (eastPlace != NULL)
-		cout << "Una habitacio cap el east" << endl;
+		cout << "<-- A place to the east" << endl;
 	if (upPlace != NULL)
-		cout << "Una habitacio cap el up" << endl;
+		cout << "<-- A place to the up" << endl;
 	if (downPlace != NULL)
-		cout << "Una habitacio cap el down" << endl;
+		cout << "<-- A place to the down" << endl;
 	for (std::list<Item*>::iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
 	{
-		cout << "Un/Una: " << (*it)->getName() << endl;
+		cout << "<-- A/An: " << (*it)->getName() << endl;
 	}   	
 	cout << endl;
 }

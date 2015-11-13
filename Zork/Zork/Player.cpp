@@ -39,13 +39,13 @@ void Player::removeItem(Item* item)
 void Player::readInventory()
 {
 	if (listOfInventory.size() == 0)
-		cout << "The player doesn't have any item in the inventory" << endl;
+		cout << "<-- The player doesn't have any item in the inventory" << endl;
 	else
 	{
-		cout << "The player have in the inventory:" << endl;
+		cout << "<--- The player have in the inventory:" << endl;
 		for (std::list<Item*>::iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
 		{
-			cout << (*it)->getName() << endl;
+			cout << "<-- " << (*it)->getName() << endl;
 		}
 	}
 }

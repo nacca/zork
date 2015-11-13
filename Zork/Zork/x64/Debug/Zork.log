@@ -1,8 +1,10 @@
-﻿Compilación iniciada a las 10/11/2015 23:37:13.
+﻿Compilación iniciada a las 11/11/2015 0:46:07.
      1>Proyecto "D:\ProjectesUni\Zork\Zork\Zork\Zork.vcxproj" en el nodo 2 (Build destinos).
      1>ClCompile:
-         D:\Programes\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt main.cpp
+         D:\Programes\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"x64\Debug\\" /Fd"x64\Debug\vc140.pdb" /Gd /TP /errorReport:prompt Player.cpp main.cpp
          main.cpp
+         Player.cpp
+         Generando código...
        Link:
          D:\Programes\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"D:\ProjectesUni\Zork\Zork\x64\Debug\Zork.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"D:\ProjectesUni\Zork\Zork\x64\Debug\Zork.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\ProjectesUni\Zork\Zork\x64\Debug\Zork.lib" /MACHINE:X64 x64\Debug\Item.obj
          x64\Debug\main.obj
@@ -13,4 +15,4 @@
 
 Compilación correcta.
 
-Tiempo transcurrido 00:00:00.56
+Tiempo transcurrido 00:00:00.99
