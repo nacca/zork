@@ -1,50 +1,34 @@
 #include <iostream>
 #include <vector>
+#include <string>
 #include "Player.h"
 
 using namespace std;
 
 int main()
 {
-	Place roomCentral("Central Room");
-	Place roomNorth("North Room");
-	Place roomWest("West Room");
-	Place roomNorthUp("North-up Room");
-	Place roomWestDown("West-down Room");
+	Place bedroom("Bedroom", "You're in a small bedroom with a bed and a small vault");
+	Place corridor("Corridor", "At your right you can see a big glass. If you look through the glass you can see a lot of stars and planets, you're in the space");
+	
+	//void Place::setDirection(string direction, string definition, Place* nextRoom, bool opened, string itemToOpen)
+
+	bedroom.setDirection("north", "a door", &corridor, true, "");
+	corridor.setDirection("south", "a door", &bedroom, true, "");
 
 	vector<Item*> vectorOfItems(0);
 
-	Item knife("knife", true);
-	Item gun("gun", true);
-	Item painting("painting", false);
-	Item trophie("trophie", false);
-	Item rope("rope", true);
+	Item keyPaper("paper", "At the first page of the book you can see a 3 set of numbers: \n 01-02-03 \n 05-08-13 \n 21-34-55", true);
+	Item key("key", "Nothing to show", true);
+	Item vault("vault", "Put your code to open the vault", false, true, &key, false, true, "05-08-13");
 
-	vectorOfItems.push_back(&knife);
-	vectorOfItems.push_back(&gun);
-	vectorOfItems.push_back(&painting);
-	vectorOfItems.push_back(&trophie);
-	vectorOfItems.push_back(&rope);
+	vectorOfItems.push_back(&keyPaper);
+	vectorOfItems.push_back(&key);
+	vectorOfItems.push_back(&vault);
 
-	roomCentral.setNorthPlace(&roomNorth);
-	roomCentral.setWestPlace(&roomWest);
-	roomCentral.addItem(&knife);
+	bedroom.addItem(&keyPaper);
+	bedroom.addItem(&vault);
 
-	roomNorth.setSouthPlace(&roomCentral);
-	roomNorth.setUpPlace(&roomNorthUp);
-	roomNorth.addItem(&gun);
-
-	roomWest.setEastPlace(&roomCentral);
-	roomWest.setDownPlace(&roomWestDown);
-	roomWest.addItem(&painting);
-
-	roomNorthUp.setDownPlace(&roomNorth);
-	roomNorthUp.addItem(&trophie);
-
-	roomWestDown.setUpPlace(&roomWest);
-	roomWestDown.addItem(&rope);
-
-	Player player(&roomCentral);
+	Player player(&bedroom);
 
 	player.getActualPlace()->readPlace();
 
@@ -56,71 +40,16 @@ int main()
 		else if (input == "go") 
 		{
 			cin >> input;
-			if (input == "north")
+			Place* aux = player.getActualPlace()->goTo(input);
+			if (aux != NULL)
 			{
-				if (player.getActualPlace()->getNorthPlace() == NULL)
-					cout << "<-- There isn't a place to go in that direction" << endl;
-				else
-				{
-					player.setActualPlace(player.getActualPlace()->getNorthPlace());
-					player.getActualPlace()->readPlace();
-				}
+				player.setActualPlace(aux);
+				player.getActualPlace()->readPlace();
+			}
+			else {
+				cout << "<-- You can't go in that direction." << endl;
+			}
 
-			}
-			else if (input == "south")
-			{
-				if (player.getActualPlace()->getSouthPlace() == NULL)
-					cout << "<-- There isn't a place to go in that direction" << endl;
-				else
-				{
-					player.setActualPlace(player.getActualPlace()->getSouthPlace());
-					player.getActualPlace()->readPlace();
-				}
-			}
-			else if (input == "east")
-			{
-				if (player.getActualPlace()->getEastPlace() == NULL)
-					cout << "<-- There isn't a place to go in that direction" << endl;
-				else
-				{
-					player.setActualPlace(player.getActualPlace()->getEastPlace());
-					player.getActualPlace()->readPlace();
-				}
-			}
-			else if (input == "west")
-			{
-				if (player.getActualPlace()->getWestPlace() == NULL)
-					cout << "<-- There isn't a place to go in that direction" << endl;
-				else
-				{
-					player.setActualPlace(player.getActualPlace()->getWestPlace());
-					player.getActualPlace()->readPlace();
-				}
-			}
-			else if (input == "up")
-			{
-				if (player.getActualPlace()->getUpPlace() == NULL)
-					cout << "<-- There isn't a place to go in that direction" << endl;
-				else
-				{
-					player.setActualPlace(player.getActualPlace()->getUpPlace());
-					player.getActualPlace()->readPlace();
-				}
-			}
-			else if (input == "down")
-			{
-				if (player.getActualPlace()->getDownPlace() == NULL)
-					cout << "<-- There isn't a place to go in that direction" << endl;
-				else
-				{
-					player.setActualPlace(player.getActualPlace()->getDownPlace());
-					player.getActualPlace()->readPlace();
-				}
-			}
-			else
-			{
-				cout << "<-- can't recognize the direction" << endl;
-			}
 		}
 		else if (input == "take")
 		{
@@ -193,6 +122,48 @@ int main()
 		else if (input == "watch")
 		{
 			player.getActualPlace()->readPlace();
+		}
+		else if (input == "examine" || input == "read")
+		{
+			cin >> input;
+			player.readItem(input);
+		}
+		else if (input == "open")
+		{
+			cin >> input;
+			if (player.getActualPlace()->isItemPresent(input))
+			{
+				bool itemFinded = false;
+				Item* itemYouWantToOpen = NULL;
+				for (int i = 0; i < vectorOfItems.size() && !itemFinded; ++i)
+				{
+					if (vectorOfItems[i]->getName() == input)
+					{
+						itemYouWantToOpen = vectorOfItems[i];
+						itemFinded = true;
+					}
+				}
+				bool opened = false;
+				if (itemYouWantToOpen->needCodeToOpen())
+				{
+					cout << "<-- Put the code (codes have the format XX-XX-XX):" << endl;
+					string codeByUser;
+					cin >> codeByUser;
+					if (itemYouWantToOpen->checkCode(codeByUser))
+						opened = true;
+				}
+				else
+					opened = true;
+				if (opened)
+				{
+					player.getActualPlace()->addItem(itemYouWantToOpen->getItemInside());
+					cout << "<-- " << input << " opened. Inside it you can see a " << itemYouWantToOpen->getItemInside()->getName() << "." << endl;
+				}
+				else
+					cout << "<-- Error openeing the " << input << "." << endl;
+			}
+			else
+				cout << "<-- You can't open an item that isn't in this place." << endl;			
 		}
 		else
 		{

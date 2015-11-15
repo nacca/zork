@@ -2,23 +2,20 @@
 
 Place::Place()
 {
-	northPlace = NULL;
-	southPlace = NULL;
-	westPlace = NULL;
-	eastPlace = NULL;
-	upPlace = NULL;
-	downPlace = NULL;
+	name = "uknown";
+	story = "";
 }
 
 Place::Place(string name)
 {
 	this->name = name;
-	northPlace = NULL;
-	southPlace = NULL;
-	westPlace = NULL;
-	eastPlace = NULL;
-	upPlace = NULL;
-	downPlace = NULL;
+	story = "";
+}
+
+Place::Place(string name, string story)
+{
+	this->name = name;
+	this->story = story;
 }
 
 Place::~Place()
@@ -30,87 +27,43 @@ string Place::getName()
 	return name;
 }
 
-Place* Place::getNorthPlace()
+void Place::setDirection(string direction, string definition, Place* nextRoom, bool opened, string itemToOpen)
 {
-	return northPlace;
+	Door door = { direction, definition, nextRoom, opened, itemToOpen };
+	directions.push_back(door);
 }
 
-Place* Place::getSouthPlace()
+Place* Place::goTo(string direction)
 {
-	return southPlace;
-}
-
-Place* Place::getWestPlace()
-{
-	return westPlace;
-}
-
-Place* Place::getEastPlace()
-{
-	return eastPlace;
-}
-
-Place* Place::getUpPlace()
-{
-	return upPlace;
-}
-
-Place* Place::getDownPlace()
-{
-	return downPlace;
-}
-
-void Place::setNorthPlace(Place* northPlace)
-{
-	this->northPlace = northPlace;
-}
-
-void Place::setSouthPlace(Place* southPlace)
-{
-	this->southPlace = southPlace;
-}
-
-void Place::setWestPlace(Place* westPlace)
-{
-	this->westPlace = westPlace;
-}
-
-void Place::setEastPlace(Place* eastPlace)
-{
-	this->eastPlace = eastPlace;
-}
-
-void Place::setUpPlace(Place* upPlace)
-{
-	this->upPlace = upPlace;
-}
-
-void Place::setDownPlace(Place* downPlace)
-{
-	this->downPlace = downPlace;
+	for (int i = 0; i < directions.size(); ++i)
+	{
+		if (direction == directions[i].direction)
+		{
+			return directions[i].nextRoom;
+		}
+	}
+	return NULL;
 }
 
 void Place::readPlace()
 {
-	cout << "<-- You're in " << name << endl;
-	cout << "<-- In this place you can see : " << endl;
-	if (northPlace != NULL)
-		cout << "<-- A place to the north" << endl;
-	if (southPlace != NULL)
-		cout << "<-- A place to the south" << endl;
-	if (westPlace != NULL)
-		cout << "<-- A place to the west" << endl;
-	if (eastPlace != NULL)
-		cout << "<-- A place to the east" << endl;
-	if (upPlace != NULL)
-		cout << "<-- A place to the up" << endl;
-	if (downPlace != NULL)
-		cout << "<-- A place to the down" << endl;
-	for (std::list<Item*>::iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
+	cout << "<-- You're in a " << name << ". " << story << endl;
+	for (int i = 0; i < directions.size(); ++i)
 	{
-		cout << "<-- A/An: " << (*it)->getName() << endl;
-	}   	
-	cout << endl;
+		cout << "<-- At the " << directions[i].direction << " you can see " << directions[i].definition << ". ";
+		if (!directions[i].opened)
+			cout << "It seems that the door is closed.";
+		cout << endl;
+	}
+	if (!listOfItemsInPlace.empty())
+	{
+		cout << "<-- You can see: " << endl;
+		for (std::list<Item*>::iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
+		{
+			cout << "<-- A " << (*it)->getName() << endl;
+		}
+		cout << endl;
+	}
 }
 
 void Place::addItem(Item* item)

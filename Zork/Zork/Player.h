@@ -1,9 +1,8 @@
-#include "Place.h"
+#include "Entity.h"
 
-class Player
+class Player: public Entity
 {
 private:
-	Place* actualPlace;
 	list<Item*> listOfInventory;
 
 public:
@@ -19,6 +18,7 @@ public:
 	bool isItemInTheInventory(string itemName);
 
 	void readInventory();
+	void readItem(string itemName);
 
 };
 

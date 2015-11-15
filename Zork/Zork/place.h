@@ -1,44 +1,40 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <list>
 #include "Item.h"
 using namespace std;
 
+
 class Place
 {
 private:
+	struct Door {
+		string direction;
+		string definition;
+		Place* nextRoom;
+		bool opened;
+		string itemToOpen;
+	};
 	string name;
-	Place* northPlace;
-	Place* southPlace;
-	Place* westPlace;
-	Place* eastPlace;
-	Place* upPlace;
-	Place* downPlace;
+	string story;
+	vector<Door> directions;
 	list<Item*> listOfItemsInPlace;
 
 public:
 	Place();
 	Place(string name);
+	Place(string name, string story);
 	~Place();
 
 	string getName();
-	Place* getNorthPlace();
-	Place* getSouthPlace();
-	Place* getWestPlace();
-	Place* getEastPlace();
-	Place* getUpPlace();
-	Place* getDownPlace();
 
-	void setNorthPlace(Place* northPlace);
-	void setSouthPlace(Place* southPlace);
-	void setWestPlace(Place* westPlace);
-	void setEastPlace(Place* eastPlace);
-	void setUpPlace(Place* upPlace);
-	void setDownPlace(Place* downPlace);
+	void setDirection(string direction, string definition, Place* nextRoom, bool opened, string itemToOpen);
 
 	void addItem(Item* item);
 	void removeItem(Item* item);
 	bool isItemPresent(string itemName);
+	Place* goTo(string direction);
 
 	void readPlace();
 

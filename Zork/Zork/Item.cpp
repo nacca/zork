@@ -4,11 +4,42 @@ Item::Item()
 {
 }
 
-Item::Item(string name, bool canTakeIt)
+Item::Item(string name, string message, bool canTakeIt)
 {
 	this->name = name;
+	this->message = message;
 	this->canTakeIt = canTakeIt;
+	canBeOpened = false;
+	itemInside = NULL;
+	needCode = false;
+	needKey = false;
+	code = "";
 }
+
+Item::Item(string name, string message, bool canTakeIt, bool canBeOpened, Item* itemInside)
+{
+	this->name = name;
+	this->message = message;
+	this->canTakeIt = canTakeIt;
+	this->canBeOpened = canBeOpened;
+	this->itemInside = itemInside;
+	needCode = false;
+	needKey = false;
+	code = "";
+}
+
+Item::Item(string name, string message, bool canTakeIt, bool canBeOpened, Item* itemInside, bool needKey, bool needCode, string code)
+{
+	this->name = name;
+	this->message = message;
+	this->canTakeIt = canTakeIt;
+	this->canBeOpened = canBeOpened;
+	this->itemInside = itemInside;
+	this->needCode = needCode;
+	this->needKey = needKey;
+	this->code = code;
+}
+
 
 Item::~Item()
 {
@@ -29,7 +60,37 @@ bool Item::youCanTakeIt()
 	return canTakeIt;
 }
 
+string Item::readIt()
+{
+	return message;
+}
+
 void Item::setCanTakeIt(bool canTakeIt)
 {
 	this->canTakeIt = canTakeIt;
+}
+
+bool Item::youCanOpenIt()
+{
+	return canBeOpened;
+}
+
+Item* Item::getItemInside()
+{
+	return itemInside;
+}
+
+bool Item::needKeyToOpen()
+{
+	return needKey;
+}
+
+bool Item::needCodeToOpen()
+{
+	return needCode;
+}
+
+bool Item::checkCode(string code)
+{
+	return this->code == code;
 }

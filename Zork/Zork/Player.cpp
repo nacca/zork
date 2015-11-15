@@ -1,7 +1,5 @@
 #include "Player.h"
 
-
-
 Player::Player()
 {
 }
@@ -10,7 +8,6 @@ Player::Player(Place* actualPlace)
 {
 	this->actualPlace = actualPlace;
 }
-
 
 Player::~Player()
 {
@@ -58,4 +55,17 @@ bool Player::isItemInTheInventory(string itemName)
 			return true;
 	}
 	return false;
+}
+
+void Player::readItem(string itemName)
+{
+	for (std::list<Item*>::iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
+	{
+		if ((*it)->getName() == itemName)
+		{
+			cout << "<-- " << (*it)->readIt() << endl;
+			return;
+		}		
+	}
+	cout << "<-- You don't have this item in the inventory." << endl;
 }
