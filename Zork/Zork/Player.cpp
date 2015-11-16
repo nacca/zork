@@ -2,11 +2,13 @@
 
 Player::Player()
 {
+	equipedItem = NULL;
 }
 
 Player::Player(Place* actualPlace)
 {
 	this->actualPlace = actualPlace;
+	equipedItem = NULL;
 }
 
 Player::~Player()
@@ -68,4 +70,38 @@ void Player::readItem(string itemName)
 		}		
 	}
 	cout << "<-- You don't have this item in the inventory." << endl;
+}
+
+
+void Player::equipItem(string itemName)
+{
+	if (itemName != "gun" && itemName != "knife") cout << "<-- This item can't be equiped" << endl;
+	else {
+		for (std::list<Item*>::iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
+		{
+			if ((*it)->getName() == itemName)
+			{
+				equipedItem = (*it);
+				cout << "<-- You have equiped a " << itemName << "." << endl;
+				return;
+			}
+		}
+		cout << "<-- You don't have this item in the inventory." << endl;
+	}
+}
+
+void Player::unequipItem()
+{
+	if (equipedItem == NULL)
+		cout << "<-- You don't have nothing equiped." << endl;
+	else
+	{
+		cout << "<-- " << equipedItem->getName() << " unequiped." << endl;
+		equipedItem = NULL;
+	}
+}
+
+Item* Player::getItemEquiped()
+{
+	return equipedItem;
 }

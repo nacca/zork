@@ -1,13 +1,15 @@
-#include "Place.h"
+#pragma once
+
+#include "Item.h"
 
 class Entity
 {
 protected:
-	Place* actualPlace;
+	Item* equipedItem;
 
 public:
 	Entity();
-	Entity(Place* actualPlace);
+	Entity(Item* equipedItem);
 	virtual ~Entity();
 
 };

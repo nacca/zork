@@ -4,18 +4,33 @@ Place::Place()
 {
 	name = "uknown";
 	story = "";
+	enemyPresent = false;
+	enemyInThePlace = NULL;
 }
 
 Place::Place(string name)
 {
 	this->name = name;
 	story = "";
+	enemyPresent = false;
+	enemyInThePlace = NULL;
 }
 
 Place::Place(string name, string story)
 {
 	this->name = name;
 	this->story = story;
+	enemyPresent = false;
+	enemyInThePlace = NULL;
+}
+
+Place::Place(string name, string story, bool enemyPresent, Enemy* enemyInThePlace)
+{
+	this->name = name;
+	this->story = story;
+	this->enemyPresent = enemyPresent;
+	this->enemyInThePlace = enemyInThePlace;
+
 }
 
 Place::~Place()
@@ -64,6 +79,18 @@ void Place::readPlace()
 		}
 		cout << endl;
 	}
+	if (enemyPresent)
+	{
+		cout << "<-- CAUTION: Theres also a enemy in the room!!!" << endl;
+		if (enemyInThePlace->getItemEquiped()->getName() == "knife") 
+		{
+			cout << "<-- Care, he has a knife!" << endl;
+		}
+		if (enemyInThePlace->getItemEquiped()->getName() == "gun")
+		{
+			cout << "<-- He has a gun, and it's pointing to you!!! RUN, do something!!!" << endl;
+		}
+	}
 }
 
 void Place::addItem(Item* item)
@@ -84,4 +111,27 @@ bool Place::isItemPresent(string itemName)
 			return true;
 	}
 	return false;
+}
+
+void Place::addEnemy(Enemy* enemy)
+{
+	enemyPresent = true;
+	enemyInThePlace = enemy;
+}
+
+void Place::enemyDies()
+{
+	listOfItemsInPlace.push_back(enemyInThePlace->getItemEquiped());
+	enemyPresent = false;
+	enemyInThePlace = NULL;
+}
+
+bool Place::isEnemyPresent()
+{
+	return enemyPresent;
+}
+
+Enemy* Place::getEnemy()
+{
+	return enemyInThePlace;
 }

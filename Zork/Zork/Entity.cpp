@@ -4,9 +4,9 @@ Entity::Entity()
 {
 }
 
-Entity::Entity(Place* actualPlace)
+Entity::Entity(Item* equipedItem)
 {
-	this->actualPlace = actualPlace;
+	this->equipedItem = equipedItem;
 }
 
 Entity::~Entity()

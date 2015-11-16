@@ -4,11 +4,26 @@ Enemy::Enemy()
 {
 }
 
-Enemy::Enemy(Place* actualPlace)
+Enemy::Enemy(Item* itemEquiped)
 {
-	this->actualPlace = actualPlace;
+	this->itemEquiped = itemEquiped;
 }
 
 Enemy::~Enemy()
 {
+}
+
+Item* Enemy::getItemEquiped()
+{
+	return itemEquiped;
+}
+
+void Enemy::setItemEquiped(Item* itemEquiped)
+{
+	this->itemEquiped = itemEquiped;
+}
+
+Item* Enemy::Die()
+{
+	return itemEquiped;
 }
