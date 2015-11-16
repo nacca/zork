@@ -5,11 +5,16 @@
 #include <time.h>
 #include <stdlib.h> 
 
+enum class InputOrder { GO, TAKE, DROP, INVENTORY, EXIT, WATCH, READ, OPEN, EQUIP, UNEQUIP, ATTACK, THROW, UNKNOWN };
+
 class Constants
 {
 public:
+
 	Constants();
 	~Constants();
-	const bool playerWinsOrLoses(string action, Item* playerItem, Item* enemyItem, clock_t timeSinceEnterRoom);
+	bool playerWinsOrLoses(string action, Item* playerItem, Item* enemyItem, clock_t timeSinceEnterRoom);
+	InputOrder selectEnum(string s);
+
 };
 

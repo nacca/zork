@@ -8,127 +8,12 @@
 
 using namespace std;
 
-enum class InputOrder { GO, TAKE, DROP, INVENTORY, EXIT, WATCH, READ, OPEN, EQUIP, UNEQUIP, ATTACK, THROW, UNKNOWN };
-
-InputOrder selectEnum(string s)
-{
-	if (s == "go")
-		return InputOrder::GO;
-	
-	else if (s == "take")
-		return InputOrder::TAKE;
-	
-	else if (s == "drop")
-		return InputOrder::DROP;
-
-	else if (s == "inventory")
-		return InputOrder::INVENTORY;
-
-	else if (s == "exit")
-		return InputOrder::EXIT;
-
-	else if (s == "watch")
-		return InputOrder::WATCH;
-
-	else if (s == "read" || s == "examine")
-		return InputOrder::READ;
-
-	else if (s == "open")
-		return InputOrder::OPEN;
-
-	else if (s == "equip")
-		return InputOrder::EQUIP;
-
-	else if (s == "unequip")
-		return InputOrder::UNEQUIP;
-
-	else if (s == "attack")
-		return InputOrder::ATTACK;
-
-	else if (s == "throw")
-		return InputOrder::THROW;
-	
-	else
-		return InputOrder::UNKNOWN;
-}
-
-const bool playerWinsOrLoses(string action, Item* playerItem, Item* enemyItem, clock_t timeSinceEnterRoom)
-{
-	if (timeSinceEnterRoom >= 5000)
-	{
-		if (enemyItem->getName() == "gun")
-			cout << "<-- Oh! You have been to slow, the enemy shooted you." << endl;
-		else
-			cout << "<-- Oh! You have been to slow, the enemy throwed the knife to you." << endl;
-		return false;
-	}
-
-	else if (playerItem == NULL)
-	{
-		cout << "<-- You really think that you can kill an armed enemy with your bare hands?" << endl;
-		if (enemyItem->getName() == "gun")
-			cout << "<-- Of course you can't, the enemy shooted you." << endl;
-		else
-			cout << "<-- Of course you can't, the enemy doesn't have a gun, but have a knife. He stab you 3 times." << endl;
-		return false;
-	}
-
-	else if (playerItem->getName() == "knife")
-	{
-		if (action == "throw")
-		{
-			cout << "<-- You throw the knife to the soldier and..." << endl;
-			srand(time(NULL));
-			if ((rand() % 10 + 1) <= 5)
-			{
-				cout << "<-- PERFECT. You hit the soldier in the heart." << endl;
-				return true;
-			}
-			else
-			{
-				cout << "<-- BAD. You miss the hit, now the soldier is going to kill you with his weapon." << endl;
-				return false;
-			}
-		}
-		else
-		{
-			if (enemyItem->getName() == "gun")
-			{
-				cout << "<-- You try to stab the enemy but he has a gun and shoot you in the head while you run to him." << endl;
-				return false;
-			}
-			else
-			{
-				cout << "<-- You started a knife battle..." << endl;
-				srand(time(NULL));
-				if ((rand() % 10 + 1) <= 5)
-				{
-					cout << "<-- PERFECT. You hit the soldier in the heart." << endl;
-					return true;
-				}
-				else
-				{
-					cout << "<-- BAD. You miss the hit and the soldier stab you in your heart." << endl;
-					return false;
-				}
-			}
-		}
-	}
-	else
-	{
-		cout << "<-- You shoot first and you hit the enemy in the head." << endl;
-		return true;
-	}
-}
-
 int main()
 {
-	Constants constants();
+	Constants constants;
 
 	Place bedroom("Bedroom", "You're in a small bedroom with a bed and a small vault");
 	Place corridor("Corridor", "At your right you can see a big glass. If you look through the glass you can see a lot of stars and planets, you're in the space");
-	
-	//void Place::setDirection(string direction, string definition, Place* nextRoom, bool opened, string itemToOpen)
 
 	bedroom.setDirection("north", "a door", &corridor, true, "");
 	corridor.setDirection("south", "a door", &bedroom, true, "");
@@ -136,19 +21,23 @@ int main()
 	vector<Item*> vectorOfItems(0);
 
 	Item keyPaper("paper", "You can see 3 set of numbers: \n 01-02-03 \n 05-08-13 \n 21-34-55", true);
-	Item knife("knife", "Be fast or die. You can throw me to an enemy.", true);
 	Item gun("gun", "Be fast or die.", true);
-	Item vault("vault", "Put your code to open the vault", false, true, &knife, true, "05-08-13");
+	Item knife("knife", "Be fast or die. You can throw me to an enemy.", true);
+	Item knife2("knife", "Be fast or die.", true);
+	Item vault("vault", "Put your code to open the vault", false, true, &gun, true, "05-08-13");
 
 	vectorOfItems.push_back(&keyPaper);
 	vectorOfItems.push_back(&knife);
+	vectorOfItems.push_back(&knife2);
+	vectorOfItems.push_back(&gun);
 	vectorOfItems.push_back(&vault);
 
 	bedroom.addItem(&keyPaper);
+	bedroom.addItem(&knife);
 	bedroom.addItem(&vault);
 
 	Player player(&bedroom);
-	Enemy enemy1(&gun);
+	Enemy enemy1(&knife2);
 
 	corridor.addEnemy(&enemy1);
 	player.getActualPlace()->readPlace();
@@ -162,7 +51,7 @@ int main()
 
 	while (1) {
 		cin >> input;
-		switch (selectEnum(input))
+		switch (constants.selectEnum(input))
 		{
 		case InputOrder::EXIT:
 			return 0;
@@ -325,7 +214,7 @@ int main()
 		case InputOrder::ATTACK:
 			if (enemyPresentInTheRoom)
 			{
-				if (playerWinsOrLoses("attack", player.getItemEquiped(), player.getActualPlace()->getEnemy()->getItemEquiped(), clock() - timeWhenYouEnter)) {
+				if (constants.playerWinsOrLoses("attack", player.getItemEquiped(), player.getActualPlace()->getEnemy()->getItemEquiped(), clock() - timeWhenYouEnter)) {
 					Item* dropItem = player.getActualPlace()->getEnemy()->Die();
 					enemyPresentInTheRoom = false;
 					player.getActualPlace()->enemyDies();
@@ -344,7 +233,7 @@ int main()
 		case InputOrder::THROW:
 			if (enemyPresentInTheRoom)
 			{
-				if (playerWinsOrLoses("throw", player.getItemEquiped(), player.getActualPlace()->getEnemy()->getItemEquiped(), clock() - timeWhenYouEnter)) {
+				if (constants.playerWinsOrLoses("throw", player.getItemEquiped(), player.getActualPlace()->getEnemy()->getItemEquiped(), clock() - timeWhenYouEnter)) {
 					Item* dropItem = player.getActualPlace()->getEnemy()->Die();
 					enemyPresentInTheRoom = false;
 					player.getActualPlace()->enemyDies();
