@@ -2,6 +2,7 @@
 
 Entity::Entity()
 {
+	equipedItem = NULL;
 }
 
 Entity::Entity(Item* equipedItem)

@@ -45,6 +45,7 @@ public:
 	bool isEnemyPresent();
 	Enemy* getEnemy();
 	void readPlace();
+	Item* getItemByName(string itemName);
 
 };
 

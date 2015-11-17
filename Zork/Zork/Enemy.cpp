@@ -2,6 +2,7 @@
 
 Enemy::Enemy()
 {
+	equipedItem = NULL;
 }
 
 Enemy::Enemy(Item* itemEquiped)

@@ -23,6 +23,7 @@ public:
 	void equipItem(string itemName);
 	void unequipItem();
 	Item* getItemEquiped();
+	Item* getItemByName(string itemName);
 
 	void readInventory();
 	void readItem(string itemName);

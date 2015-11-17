@@ -105,3 +105,12 @@ Item* Player::getItemEquiped()
 {
 	return equipedItem;
 }
+
+Item* Player::getItemByName(string itemName)
+{
+	for (std::list<Item*>::iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
+	{
+		if ((*it)->getName() == itemName)
+			return (*it);
+	}
+}

@@ -135,3 +135,12 @@ Enemy* Place::getEnemy()
 {
 	return enemyInThePlace;
 }
+
+Item* Place::getItemByName(string itemName)
+{
+	for (std::list<Item*>::iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
+	{
+		if ((*it)->getName() == itemName)
+			return (*it);
+	}
+}
