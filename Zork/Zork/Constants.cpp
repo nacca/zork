@@ -17,7 +17,7 @@ bool Constants::playerWinsOrLoses(string action, Item* playerItem, Item* enemyIt
 		if (enemyItem->getName() == "gun")
 			cout << "<-- Oh! You have been to slow, the enemy shooted you." << endl;
 		else
-			cout << "<-- Oh! You have been to slow, the enemy throwed the knife to you." << endl;
+			cout << "<-- Oh! You have been to slow, the enemy throwed a knife to you." << endl;
 		return false;
 	}
 
@@ -64,8 +64,20 @@ bool Constants::playerWinsOrLoses(string action, Item* playerItem, Item* enemyIt
 	}
 	else
 	{
-		cout << "<-- You shoot first and you hit the enemy in the head." << endl;
-		return true;
+		if (action == "throw")
+		{
+			cout << "<-- Why on earth you throw a gun to a enemy instead of shooting him?" << endl;
+			if (enemyItem->getName() == "gun")
+				cout << "<-- The enemy shoot you in the head." << endl;
+			else
+				cout << "<-- The enemy run to you and stab his knife in your chest" << endl;
+			return false;
+		}
+		else
+		{
+			cout << "<-- You shoot first and you hit the enemy in the head." << endl;
+			return true;
+		}
 	}
 }
 

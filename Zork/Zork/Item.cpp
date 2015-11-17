@@ -86,3 +86,8 @@ bool Item::checkCode(string code)
 {
 	return this->code == code;
 }
+
+string Item::getMessage()
+{
+	return message;
+}

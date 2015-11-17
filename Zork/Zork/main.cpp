@@ -12,34 +12,60 @@ int main()
 {
 	Constants constants;
 
-	Place bedroom("Bedroom", "You're in a small bedroom with a bed and a small vault");
-	Place corridor("Corridor", "At your right you can see a big glass. If you look through the glass you can see a lot of stars and planets, you're in the space");
+	Place cell("cell", "You're a prisioner of a militia. You wake up in the middle of the night in your cell.");
+	Place corridor("corridor", "You're in a corridor with a lot of cells and prisioners sleeping on them. You better escape in silence.");
+	Place controlRoom("control room", "Here is the place were the guards control the prisioners and pass their free time.");
+	Place armery("armery", "This room is have a lot of guns but unfortunetly you can't find any munition on them.");
+	Place corridorUp("corridor", ".");
+	Place exit("outside", "Congratulations, you scaped the prision! A woman is waiting you with a car, enjoy your life.");
 
-	bedroom.setDirection("north", "a door", &corridor, true, "");
-	corridor.setDirection("south", "a door", &bedroom, true, "");
 
+	cell.setDirection("north", "a door", &corridor, true, "");
+	corridor.setDirection("south", "a door", &cell, true, "");
+	
+	corridor.setDirection("north", "a door", &controlRoom, true, "");
+	controlRoom.setDirection("south", "a door", &corridor, true, "");
+
+	controlRoom.setDirection("up", "stairs", &corridorUp, true, "");
+	corridorUp.setDirection("down", "stairs", &controlRoom, true, "");
+
+	controlRoom.setDirection("west", "a door", &armery, true, "");
+	armery.setDirection("east", "a door", &controlRoom, true, "");
+
+	corridorUp.setDirection("up", "stairs", &exit, true, "");
 	vector<Item*> vectorOfItems(0);
 
-	Item keyPaper("paper", "You can see 3 set of numbers: \n 01-02-03 \n 05-08-13 \n 21-34-55", true);
+	Item note("note", "I opened your cell, run, get out of here before they discover our plan!", true);
+	Item paper("paper", "The exit is upstairs but there is an armed guy there. You better go to your west before and arme yourself better. Take care, there's a soldier to but he only have a knife.", true);
+	Item knife("knife", "Be fast or die. You can throw me to an enemy but you can miss the hit.", true);
 	Item gun("gun", "Be fast or die.", true);
-	Item knife("knife", "Be fast or die. You can throw me to an enemy.", true);
-	Item knife2("knife", "Be fast or die.", true);
-	Item vault("vault", "Put your code to open the vault", false, true, &gun, true, "05-08-13");
+	Item vault("vault", "Put your code (XX-XX-XX) to open the vault. Clue: 01-01-02-03-05-08-...", false, true, &paper, true, "13-21-34");
+	Item vault2("vault", "Put your code (XXXX) to open the vault. Clue: 3.1415...", false, true, &gun, true, "9265");
 
-	vectorOfItems.push_back(&keyPaper);
+	Item knifeEnemy("knife", "Be fast or die. You can throw me to an enemy but you can miss the hit.", true);
+	Item gunEnemy("gun", "Be fast or die.", true);
+
+	vectorOfItems.push_back(&note);
+	vectorOfItems.push_back(&paper);
 	vectorOfItems.push_back(&knife);
-	vectorOfItems.push_back(&knife2);
+	vectorOfItems.push_back(&knifeEnemy);
+	vectorOfItems.push_back(&gunEnemy);
 	vectorOfItems.push_back(&gun);
 	vectorOfItems.push_back(&vault);
+	vectorOfItems.push_back(&vault2);
 
-	bedroom.addItem(&keyPaper);
-	bedroom.addItem(&knife);
-	bedroom.addItem(&vault);
+	cell.addItem(&note);
+	controlRoom.addItem(&knife);
+	controlRoom.addItem(&vault);
+	armery.addItem(&vault2);
 
-	Player player(&bedroom);
-	Enemy enemy1(&knife2);
 
-	corridor.addEnemy(&enemy1);
+	Player player(&cell);
+	Enemy enemy1(&knifeEnemy);
+	Enemy enemy2(&gunEnemy);
+
+	armery.addEnemy(&enemy1);
+	corridorUp.addEnemy(&enemy2);
 	player.getActualPlace()->readPlace();
 
 	Place* aux;
@@ -179,7 +205,7 @@ int main()
 				bool opened = false;
 				if (itemYouWantToOpen->needCodeToOpen())
 				{
-					cout << "<-- Put the code (codes have the format XX-XX-XX):" << endl;
+					cout << itemYouWantToOpen->getMessage() << endl;
 					string codeByUser;
 					cin >> codeByUser;
 					if (itemYouWantToOpen->checkCode(codeByUser))

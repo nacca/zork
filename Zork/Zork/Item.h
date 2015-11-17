@@ -30,5 +30,7 @@ public:
 	string readIt();
 	void setCanTakeIt(bool canTakeIt);
 	bool checkCode(string code);
+	string getMessage();
+
 };
 
