@@ -1,18 +1,18 @@
 #include <iostream>
-#include <vector>
 #include <string>
-#include "Constants.h"
 #include "World.h"
 
 using namespace std;
 
 int main()
 {
+	// Presentation
 	cout << "Welcome to my Zork! By Oriol Romero." << endl;
 	cout << "________________________________________" << endl;
 	cout << endl;
 
-	Constants constants;
+	//Init the world where we are going to play
+	Utils utils;
 	World world;
 	world.Init();
 
@@ -20,9 +20,12 @@ int main()
 
 	while (1) {
 		cin >> input;
-		int instruction = world.Iteration(constants.selectEnum(input));
+		// Execute a iteration of the game loop
+		int instruction = world.Iteration(utils.selectEnum(input));
+		// End game
 		if (instruction == 2)
 			return 0;
+		// Restart game because the player is dead
 		else if (instruction == 1)
 		{
 			cout << endl;

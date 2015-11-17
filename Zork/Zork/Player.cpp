@@ -15,6 +15,7 @@ Player::~Player()
 {
 }
 
+
 Place* Player::getActualPlace()
 {
 	return actualPlace;

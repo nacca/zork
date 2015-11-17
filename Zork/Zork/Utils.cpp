@@ -1,16 +1,16 @@
-#include "Constants.h"
+#include "Utils.h"
 
-Constants::Constants()
+Utils::Utils()
 {
 
 }
 
-Constants::~Constants()
+Utils::~Utils()
 {
 
 }
 
-bool Constants::playerWinsOrLoses(string action, Item* playerItem, Item* enemyItem, clock_t timeSinceEnterRoom)
+bool Utils::playerWinsOrLoses(string action, Item* playerItem, Item* enemyItem, clock_t timeSinceEnterRoom)
 {
 	if (timeSinceEnterRoom >= 5000)
 	{
@@ -81,7 +81,7 @@ bool Constants::playerWinsOrLoses(string action, Item* playerItem, Item* enemyIt
 	}
 }
 
-InputOrder Constants::selectEnum(string s)
+InputOrder Utils::selectEnum(string s)
 {
 	if (s == "go")
 		return InputOrder::GO;

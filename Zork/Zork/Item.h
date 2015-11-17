@@ -23,14 +23,17 @@ public:
 	string getName();
 	void setName(string name);
 
+	void setCanTakeIt(bool canTakeIt);
 	bool youCanTakeIt();
 	bool youCanOpenIt();
 	bool needCodeToOpen();
+	
 	Item* getItemInside();
 	string readIt();
-	void setCanTakeIt(bool canTakeIt);
+	string getMessage(); 
+	
 	bool checkCode(string code);
-	string getMessage();
+	
 
 };
 

@@ -1,11 +1,8 @@
 #include "World.h"
 
-
-
 World::World()
 {
 }
-
 
 World::~World()
 {
@@ -13,18 +10,22 @@ World::~World()
 
 void World::Init()
 {
+	// Create new player
 	player = Player();
 
+	// Create new enemies
 	enemy1 = Enemy();
 	enemy2 = Enemy();
 
-	cell = Place ("cell", "You're a prisioner of a militia. You wake up in the middle of the night in your cell.");
+	// Create rooms
+	cell = Place ("cell", "You're in your cell. You're a prisioner of a militia and you wake up in the middle of the night in your cell.");
 	corridor = Place ("corridor", "You're in a corridor with a lot of cells and prisioners sleeping on them. You better escape in silence.");
-	controlRoom = Place ("control room", "Here is the place were the guards control the prisioners and pass their free time.");
-	armery = Place ("armery", "This room is have a lot of guns but unfortunetly you can't find any munition on them.");
-	corridorUp = Place ("corridor", ".");
+	controlRoom = Place ("control room", "You're in the control room, this is the place where the guards control the prisioners and pass their free time.");
+	armery = Place ("armery", "You're in the armory, this room is have a lot of guns but unfortunetly you can't find any munition on them.");
+	corridorUp = Place ("corridor", "You're in the last corridor of the prision, you have the escape in front of you.");
 	exit = Place ("outside", "Congratulations, you scaped the prision! A woman is waiting you with a car, enjoy your life.");
 
+	// Create items
 	note = Item ("note", "I opened your cell, run, get out of here before they discover our plan!", true);
 	paper = Item ("paper", "The exit is upstairs but there is an armed guy there. You better go to your west before and arme yourself better. Take care, there's a soldier to but he only have a knife.", true);
 	knife = Item ("knife", "Be fast or die. You can throw me to an enemy but you can miss the hit.", true);
@@ -34,7 +35,7 @@ void World::Init()
 	knifeEnemy = Item ("knife", "Be fast or die. You can throw me to an enemy but you can miss the hit.", true);
 	gunEnemy = Item ("gun", "Be fast or die.", true);
 
-	//
+	// Filling rooms
 
 	cell.setDirection("north", "a door", &corridor, true, "");
 	corridor.setDirection("south", "a door", &cell, true, "");
@@ -50,8 +51,6 @@ void World::Init()
 
 	corridorUp.setDirection("up", "stairs", &exit, true, "");
 
-	player.setActualPlace(&cell);
-
 	enemy1.setItemEquiped(&knifeEnemy);
 	enemy2.setItemEquiped(&gunEnemy);
 
@@ -65,6 +64,8 @@ void World::Init()
 
 	//
 
+	player.setActualPlace(&cell);
+
 	timeWhenYouEnter = 0;
 	enemyPresentInTheRoom = false;
 
@@ -73,7 +74,6 @@ void World::Init()
 
 int World::Iteration(InputOrder io)
 {
-
 	string input;
 
 	switch (io)
@@ -85,10 +85,9 @@ int World::Iteration(InputOrder io)
 	case InputOrder::GO:
 
 		cin >> input;
-		aux = player.getActualPlace()->goTo(input);
-		if (aux != NULL)
+		if (player.getActualPlace()->goTo(input) != NULL)
 		{
-			player.setActualPlace(aux);
+			player.setActualPlace(player.getActualPlace()->goTo(input));
 			player.getActualPlace()->readPlace();
 			if (player.getActualPlace()->isEnemyPresent())
 			{
@@ -103,7 +102,6 @@ int World::Iteration(InputOrder io)
 		else {
 			cout << "<-- You can't go in that direction." << endl;
 		}
-		cout << endl;
 		break;
 
 	case InputOrder::TAKE:
@@ -161,7 +159,6 @@ int World::Iteration(InputOrder io)
 
 	case InputOrder::WATCH:
 		player.getActualPlace()->readPlace();
-		cout << endl;
 		break;
 
 	case InputOrder::READ:
@@ -214,7 +211,7 @@ int World::Iteration(InputOrder io)
 	case InputOrder::ATTACK:
 		if (enemyPresentInTheRoom)
 		{
-			if (constants.playerWinsOrLoses("attack", player.getItemEquiped(), player.getActualPlace()->getEnemy()->getItemEquiped(), clock() - timeWhenYouEnter)) {
+			if (utils.playerWinsOrLoses("attack", player.getItemEquiped(), player.getActualPlace()->getEnemy()->getItemEquiped(), clock() - timeWhenYouEnter)) {
 				Item* dropItem = player.getActualPlace()->getEnemy()->Die();
 				enemyPresentInTheRoom = false;
 				player.getActualPlace()->enemyDies();
@@ -243,7 +240,7 @@ int World::Iteration(InputOrder io)
 	case InputOrder::THROW:
 		if (enemyPresentInTheRoom)
 		{
-			if (constants.playerWinsOrLoses("throw", player.getItemEquiped(), player.getActualPlace()->getEnemy()->getItemEquiped(), clock() - timeWhenYouEnter)) {
+			if (utils.playerWinsOrLoses("throw", player.getItemEquiped(), player.getActualPlace()->getEnemy()->getItemEquiped(), clock() - timeWhenYouEnter)) {
 				Item* dropItem = player.getActualPlace()->getEnemy()->Die();
 				enemyPresentInTheRoom = false;
 				player.getActualPlace()->enemyDies();
@@ -275,5 +272,6 @@ int World::Iteration(InputOrder io)
 		break;
 
 	}
+
 	return 0;
 }

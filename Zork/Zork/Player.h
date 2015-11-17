@@ -24,9 +24,9 @@ public:
 	void unequipItem();
 	Item* getItemEquiped();
 	Item* getItemByName(string itemName);
+	void readItem(string itemName);
 
 	void readInventory();
-	void readItem(string itemName);
 
 };
 

@@ -30,7 +30,6 @@ Place::Place(string name, string story, bool enemyPresent, Enemy* enemyInThePlac
 	this->story = story;
 	this->enemyPresent = enemyPresent;
 	this->enemyInThePlace = enemyInThePlace;
-
 }
 
 Place::~Place()
@@ -62,10 +61,13 @@ Place* Place::goTo(string direction)
 
 void Place::readPlace()
 {
-	cout << "<-- You're in a " << name << ". " << story << endl;
+	cout << "<-- " << story << endl;
 	for (int i = 0; i < directions.size(); ++i)
 	{
-		cout << "<-- At the " << directions[i].direction << " you can see " << directions[i].definition << ". ";
+		if(directions[i].direction == "up" || directions[i].direction == "down")
+			cout << "<-- You can see " << directions[i].definition << " going " << directions[i].direction << ". ";
+		else
+			cout << "<-- At the " << directions[i].direction << " you can see " << directions[i].definition << ". ";
 		if (!directions[i].opened)
 			cout << "It seems that the door is closed.";
 		cout << endl;

@@ -13,6 +13,7 @@ public:
 
 	Item* getItemEquiped();
 	void setItemEquiped(Item* itemEquiped);
+
 	Item* Die();
 
 };
