@@ -14,7 +14,7 @@ Enemy::~Enemy()
 {
 }
 
-Item* Enemy::getItemEquiped()
+Item* Enemy::getItemEquiped() const
 {
 	return itemEquiped;
 }
@@ -22,9 +22,4 @@ Item* Enemy::getItemEquiped()
 void Enemy::setItemEquiped(Item* itemEquiped)
 {
 	this->itemEquiped = itemEquiped;
-}
-
-Item* Enemy::Die()
-{
-	return itemEquiped;
 }

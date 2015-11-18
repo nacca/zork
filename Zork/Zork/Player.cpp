@@ -16,7 +16,7 @@ Player::~Player()
 }
 
 
-Place* Player::getActualPlace()
+Place* Player::getActualPlace() const
 {
 	return actualPlace;
 }
@@ -36,23 +36,23 @@ void Player::removeItem(Item* item)
 	listOfInventory.remove(item);
 }
 
-void Player::readInventory()
+void Player::readInventory() const
 {
 	if (listOfInventory.size() == 0)
 		cout << "<-- The player doesn't have any item in the inventory" << endl;
 	else
 	{
 		cout << "<--- The player have in the inventory:" << endl;
-		for (std::list<Item*>::iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
+		for (std::list<Item*>::const_iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
 		{
 			cout << "<-- " << (*it)->getName() << endl;
 		}
 	}
 }
 
-bool Player::isItemInTheInventory(string itemName)
+bool Player::isItemInTheInventory(string itemName) const
 {
-	for (std::list<Item*>::iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
+	for (std::list<Item*>::const_iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
 	{
 		if ((*it)->getName() == itemName)
 			return true;
@@ -60,21 +60,21 @@ bool Player::isItemInTheInventory(string itemName)
 	return false;
 }
 
-void Player::readItem(string itemName)
+void Player::readItem(string itemName) const
 {
-	for (std::list<Item*>::iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
+	for (std::list<Item*>::const_iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
 	{
 		if ((*it)->getName() == itemName)
 		{
 			cout << "<-- " << (*it)->readIt() << endl;
 			return;
-		}		
+		}
 	}
 	cout << "<-- You don't have this item in the inventory." << endl;
 }
 
 
-void Player::equipItem(string itemName)
+void Player::equipItem(const string itemName)
 {
 	if (itemName != "gun" && itemName != "knife") cout << "<-- This item can't be equiped" << endl;
 	else {
@@ -102,16 +102,17 @@ void Player::unequipItem()
 	}
 }
 
-Item* Player::getItemEquiped()
+Item* Player::getItemEquiped() const
 {
 	return equipedItem;
 }
 
-Item* Player::getItemByName(string itemName)
+Item* Player::getItemByName(string itemName) const
 {
-	for (std::list<Item*>::iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
+	for (std::list<Item*>::const_iterator it = listOfInventory.begin(); it != listOfInventory.end(); ++it)
 	{
 		if ((*it)->getName() == itemName)
 			return (*it);
 	}
+	return NULL;
 }

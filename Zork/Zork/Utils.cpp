@@ -10,9 +10,9 @@ Utils::~Utils()
 
 }
 
-bool Utils::playerWinsOrLoses(string action, Item* playerItem, Item* enemyItem, clock_t timeSinceEnterRoom)
+bool Utils::playerWinsOrLoses(string action, Item* playerItem, Item* enemyItem, clock_t timeSinceEnterRoom) const
 {
-	if (timeSinceEnterRoom >= 5000)
+	if (timeSinceEnterRoom >= 10000)
 	{
 		if (enemyItem->getName() == "gun")
 			cout << "<-- Oh! You have been to slow, the enemy shooted you." << endl;
@@ -81,7 +81,7 @@ bool Utils::playerWinsOrLoses(string action, Item* playerItem, Item* enemyItem, 
 	}
 }
 
-InputOrder Utils::selectEnum(string s)
+InputOrder Utils::selectEnum(string s) const
 {
 	if (s == "go")
 		return InputOrder::GO;
@@ -107,6 +107,9 @@ InputOrder Utils::selectEnum(string s)
 	else if (s == "open")
 		return InputOrder::OPEN;
 
+	else if (s == "close")
+		return InputOrder::CLOSE;
+
 	else if (s == "equip")
 		return InputOrder::EQUIP;
 
@@ -118,6 +121,9 @@ InputOrder Utils::selectEnum(string s)
 
 	else if (s == "throw")
 		return InputOrder::THROW;
+
+	else if (s == "leave")
+		return InputOrder::LEAVE;
 
 	else
 		return InputOrder::UNKNOWN;

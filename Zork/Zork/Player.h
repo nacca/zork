@@ -3,30 +3,35 @@
 #include "Entity.h"
 #include "Place.h"
 
-class Player: public Entity
+class Player : public Entity
 {
 private:
 	list<Item*> listOfInventory;
 	Place* actualPlace;
 
 public:
+
+	// Creadores
 	Player();
 	Player(Place* actualPlace);
 	~Player();
 
-	Place* getActualPlace();
-	void setActualPlace(Place* actualPlace);
+	// Consultores
 
+	Place* getActualPlace() const;
+	bool isItemInTheInventory(string itemName) const;
+	Item* getItemEquiped() const;
+	Item* getItemByName(string itemName) const;
+	void readItem(string itemName) const;
+	void readInventory() const;
+
+	// Modificadores
+
+	void setActualPlace(Place* actualPlace);
 	void addItem(Item* item);
 	void removeItem(Item* item);
-	bool isItemInTheInventory(string itemName);
 	void equipItem(string itemName);
 	void unequipItem();
-	Item* getItemEquiped();
-	Item* getItemByName(string itemName);
-	void readItem(string itemName);
-
-	void readInventory();
 
 };
 

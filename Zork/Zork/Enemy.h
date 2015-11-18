@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 
-class Enemy: public Entity
+class Enemy : public Entity
 {
 private:
 	Item* itemEquiped;
@@ -11,10 +11,7 @@ public:
 	Enemy(Item* itemEquiped);
 	~Enemy();
 
-	Item* getItemEquiped();
+	Item* getItemEquiped() const;
 	void setItemEquiped(Item* itemEquiped);
-
-	Item* Die();
-
 };
 

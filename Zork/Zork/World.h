@@ -13,7 +13,7 @@ private:
 	bool enemyPresentInTheRoom;
 	Utils utils;
 	Enemy enemy1, enemy2;
-	Place cell, corridor, controlRoom, armery, corridorUp, exit;
+	Place cell, corridor, controlRoom, armory, corridorUp, exit;
 	Item note, paper, knife, gun, vault, vault2, knifeEnemy, gunEnemy;
 
 public:

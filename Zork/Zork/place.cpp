@@ -36,7 +36,7 @@ Place::~Place()
 {
 }
 
-string Place::getName()
+string Place::getName() const
 {
 	return name;
 }
@@ -59,12 +59,12 @@ Place* Place::goTo(string direction)
 	return NULL;
 }
 
-void Place::readPlace()
+void Place::readPlace() const
 {
 	cout << "<-- " << story << endl;
 	for (int i = 0; i < directions.size(); ++i)
 	{
-		if(directions[i].direction == "up" || directions[i].direction == "down")
+		if (directions[i].direction == "up" || directions[i].direction == "down")
 			cout << "<-- You can see " << directions[i].definition << " going " << directions[i].direction << ". ";
 		else
 			cout << "<-- At the " << directions[i].direction << " you can see " << directions[i].definition << ". ";
@@ -75,16 +75,23 @@ void Place::readPlace()
 	if (!listOfItemsInPlace.empty())
 	{
 		cout << "<-- You can see: " << endl;
-		for (std::list<Item*>::iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
+		for (std::list<Item*>::const_iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
 		{
-			cout << "<-- A " << (*it)->getName() << endl;
+			if ((*it)->isInsideAnItem())
+				cout << "<-- A " << (*it)->getName() << " is inside a " << (*it)->getItemOutside()->getName() << endl;
+			else if ((*it)->youCanOpenIt() && (*it)->isOpened())
+				cout << "<-- An open " << (*it)->getName() << endl;
+			else if ((*it)->youCanOpenIt() && !(*it)->isOpened())
+				cout << "<-- A closed " << (*it)->getName() << endl;
+			else
+				cout << "<-- A " << (*it)->getName() << endl;
 		}
 		cout << endl;
 	}
 	if (enemyPresent)
 	{
 		cout << "<-- CAUTION: Theres also a enemy in the room!!!" << endl;
-		if (enemyInThePlace->getItemEquiped()->getName() == "knife") 
+		if (enemyInThePlace->getItemEquiped()->getName() == "knife")
 		{
 			cout << "<-- Care, he has a knife!" << endl;
 		}
@@ -105,11 +112,11 @@ void Place::removeItem(Item* item)
 	listOfItemsInPlace.remove(item);
 }
 
-bool Place::isItemPresent(string itemName)
+bool Place::isItemPresent(string itemName) const
 {
-	for (std::list<Item*>::iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
+	for (std::list<Item*>::const_iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
 	{
-		if((*it)->getName() == itemName)
+		if ((*it)->getName() == itemName)
 			return true;
 	}
 	return false;
@@ -128,21 +135,22 @@ void Place::enemyDies()
 	enemyInThePlace = NULL;
 }
 
-bool Place::isEnemyPresent()
+bool Place::isEnemyPresent() const
 {
 	return enemyPresent;
 }
 
-Enemy* Place::getEnemy()
+Enemy* Place::getEnemy() const
 {
 	return enemyInThePlace;
 }
 
-Item* Place::getItemByName(string itemName)
+Item* Place::getItemByName(string itemName) const
 {
-	for (std::list<Item*>::iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
+	for (std::list<Item*>::const_iterator it = listOfItemsInPlace.begin(); it != listOfItemsInPlace.end(); ++it)
 	{
 		if ((*it)->getName() == itemName)
 			return (*it);
 	}
+	return NULL;
 }
